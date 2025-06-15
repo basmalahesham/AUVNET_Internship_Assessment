@@ -30,6 +30,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
+      theme: ThemeData.light().copyWith(
+        scaffoldBackgroundColor: Colors.white,
+      ),
       initialRoute: Routes.splashView,
       onGenerateRoute: appRouter.generateRoute,
     );
