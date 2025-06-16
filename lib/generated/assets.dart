@@ -2,8 +2,13 @@
 class Assets {
   Assets._();
 
+  static const String imagesCart = 'assets/images/cart.png';
+  static const String imagesCategories = 'assets/images/categories.png';
+  static const String imagesDeliver = 'assets/images/deliver.png';
+  static const String imagesHome = 'assets/images/home.png';
   static const String imagesNawel = 'assets/images/nawel.png';
   static const String imagesOnboardingBackground = 'assets/images/Onboarding_background.png';
+  static const String imagesProfile = 'assets/images/profile.png';
   static const String imagesSplashScreen = 'assets/images/splash_screen.png';
 
 }
