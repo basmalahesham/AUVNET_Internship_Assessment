@@ -10,13 +10,16 @@ class LoginViewBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(Assets.imagesNawel),
-          LoginForm(),
-          LoginBlocListener(),
-        ],
+      child: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(Assets.imagesNawel),
+            LoginForm(),
+            LoginBlocListener(),
+          ],
+        ),
       ),
     );
   }

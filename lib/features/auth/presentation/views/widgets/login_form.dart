@@ -87,7 +87,7 @@ class _LoginFormState extends State<LoginForm> {
                 );
               }
             },
-            minimumSize: Size(double.infinity, 45.h),
+            minimumSize: Size(double.infinity, 50.h),
             text: "Login",
             style: TextStyles.dmSans14Medium,
           ),

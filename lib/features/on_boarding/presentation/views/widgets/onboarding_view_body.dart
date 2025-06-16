@@ -59,7 +59,7 @@ class _OnboardingViewBodyState extends State<OnboardingViewBody> {
               52.height,
               CustomElevatedButton(
                 onPressed: _getStarted,
-                minimumSize: Size(double.infinity, 44.h),
+                minimumSize: Size(double.infinity, 54.h),
                 text: "Get Started",
                 style: TextStyles.rubik18Medium,
               ),

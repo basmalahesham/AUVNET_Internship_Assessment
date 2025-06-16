@@ -11,6 +11,7 @@ class OnboardingView extends StatelessWidget {
       decoration: BoxDecoration(
         image: DecorationImage(
           image: AssetImage(Assets.imagesOnboardingBackground),
+          fit: BoxFit.fill,
         ),
       ),
       child: Scaffold(

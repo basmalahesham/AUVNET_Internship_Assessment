@@ -125,7 +125,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 );
               }
             },
-            minimumSize: Size(double.infinity, 45.h),
+            minimumSize: Size(double.infinity, 50.h),
             text: "Register",
             style: TextStyles.dmSans14Medium,
           ),
