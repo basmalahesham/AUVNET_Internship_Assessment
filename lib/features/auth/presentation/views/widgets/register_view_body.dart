@@ -1,3 +1,4 @@
+import 'package:auvnet_flutter_internship_assessment/features/auth/presentation/views/widgets/register_bloc_listener.dart';
 import 'package:auvnet_flutter_internship_assessment/features/auth/presentation/views/widgets/register_form.dart';
 import 'package:auvnet_flutter_internship_assessment/generated/assets.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,11 @@ class RegisterViewBody extends StatelessWidget {
       child: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
-          children: [Image.asset(Assets.imagesNawel), RegisterForm()],
+          children: [
+            Image.asset(Assets.imagesNawel),
+            RegisterForm(),
+            const RegisterBlocListener(),
+          ],
         ),
       ),
     );

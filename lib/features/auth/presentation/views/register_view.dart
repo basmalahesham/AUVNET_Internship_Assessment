@@ -1,5 +1,8 @@
+import 'package:auvnet_flutter_internship_assessment/core/utils/service_locator.dart';
+import 'package:auvnet_flutter_internship_assessment/features/auth/presentation/manager/auth/auth_bloc.dart';
 import 'package:auvnet_flutter_internship_assessment/features/auth/presentation/views/widgets/register_view_body.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RegisterView extends StatelessWidget {
   const RegisterView({super.key});
@@ -7,7 +10,12 @@ class RegisterView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(child: RegisterViewBody()),
+      body: SafeArea(
+        child: BlocProvider(
+          create: (context) => getIt<AuthBloc>(),
+          child: RegisterViewBody(),
+        ),
+      ),
     );
   }
 }

@@ -1,8 +1,12 @@
 import 'package:auvnet_flutter_internship_assessment/core/routing/app_router.dart';
 import 'package:auvnet_flutter_internship_assessment/core/routing/routes.dart';
+import 'package:auvnet_flutter_internship_assessment/core/utils/service_locator.dart';
+import 'package:auvnet_flutter_internship_assessment/core/widgets/loading_service.dart';
 import 'package:auvnet_flutter_internship_assessment/firebase_options.dart';
+import 'package:bot_toast/bot_toast.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() async{
@@ -10,6 +14,8 @@ void main() async{
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await setUpServiceLocator();
+  configLoading();
   runApp(
     ScreenUtilInit(
       builder: (context, child) => MyApp(appRouter: AppRouter()),
@@ -32,6 +38,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData.light().copyWith(
         scaffoldBackgroundColor: Colors.white,
+      ),
+      builder: EasyLoading.init(
+        builder: BotToastInit(),
       ),
       initialRoute: Routes.splashView,
       onGenerateRoute: appRouter.generateRoute,

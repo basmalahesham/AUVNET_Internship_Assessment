@@ -6,7 +6,9 @@ import 'package:auvnet_flutter_internship_assessment/core/theming/colors.dart';
 import 'package:auvnet_flutter_internship_assessment/core/theming/styles/text_styles.dart';
 import 'package:auvnet_flutter_internship_assessment/core/widgets/custom_elevated_button.dart';
 import 'package:auvnet_flutter_internship_assessment/core/widgets/custom_text_form_field.dart';
+import 'package:auvnet_flutter_internship_assessment/features/auth/presentation/manager/auth/auth_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class RegisterForm extends StatefulWidget {
@@ -115,7 +117,12 @@ class _RegisterFormState extends State<RegisterForm> {
           CustomElevatedButton(
             onPressed: () {
               if (formKey.currentState!.validate()) {
-                context.pushReplacementNamed(Routes.homeLayout);
+                context.read<AuthBloc>().add(
+                  RegisterRequested(
+                    email: emailController.text.trim(),
+                    password: passwordController.text,
+                  ),
+                );
               }
             },
             minimumSize: Size(double.infinity, 45.h),
