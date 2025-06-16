@@ -1,3 +1,5 @@
+import 'package:auvnet_flutter_internship_assessment/core/helper/extensions.dart';
+import 'package:auvnet_flutter_internship_assessment/core/routing/routes.dart';
 import 'package:auvnet_flutter_internship_assessment/generated/assets.dart';
 import 'package:flutter/material.dart';
 
@@ -53,7 +55,7 @@ class _SplashViewBodyState extends State<SplashViewBody>
 
   void navigateToOnBoarding() async {
     Future.delayed(const Duration(seconds: 2), () {
-      //context.pushNamed(Routes.);
+      context.pushNamed(Routes.onBoardingView);
     });
   }
 }

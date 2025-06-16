@@ -3,6 +3,7 @@ class Assets {
   Assets._();
 
   static const String imagesNawel = 'assets/images/nawel.png';
+  static const String imagesOnboardingBackground = 'assets/images/Onboarding_background.png';
   static const String imagesSplashScreen = 'assets/images/splash_screen.png';
 
 }

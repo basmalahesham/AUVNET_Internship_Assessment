@@ -1,4 +1,5 @@
 import 'package:auvnet_flutter_internship_assessment/core/routing/routes.dart';
+import 'package:auvnet_flutter_internship_assessment/features/on_boarding/presentation/views/onboarding_view.dart';
 import 'package:auvnet_flutter_internship_assessment/features/splash/presentation/views/splash_view.dart';
 import 'package:flutter/material.dart';
 
@@ -9,6 +10,8 @@ class AppRouter {
     switch (settings.name) {
       case Routes.splashView:
         return MaterialPageRoute(builder: (_) => const SplashView());
+      case Routes.onBoardingView:
+        return MaterialPageRoute(builder: (_) => const OnboardingView());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(
