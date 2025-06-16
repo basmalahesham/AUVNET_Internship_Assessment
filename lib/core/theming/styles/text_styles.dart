@@ -19,4 +19,19 @@ abstract class TextStyles {
     fontSize: 18.sp,
     fontWeight: FontWeight.w500,
   );
+  static TextStyle mulish14Light = GoogleFonts.mulish(
+    color: Colors.black.withValues(alpha: 0.50),
+    fontSize: 15.sp,
+    fontWeight: FontWeight.w400,
+  );
+  static TextStyle dmSans14Bold = GoogleFonts.dmSans(
+    color: Color(0xFF1877F2),
+    fontSize: 14.sp,
+    fontWeight: FontWeight.bold,
+  );
+  static TextStyle dmSans14Medium = GoogleFonts.dmSans(
+    color: Colors.white,
+    fontSize: 14.sp,
+    fontWeight: FontWeight.w500,
+  );
 }

@@ -55,7 +55,7 @@ class _SplashViewBodyState extends State<SplashViewBody>
 
   void navigateToOnBoarding() async {
     Future.delayed(const Duration(seconds: 2), () {
-      context.pushNamed(Routes.onBoardingView);
+      context.pushReplacementNamed(Routes.onBoardingView);
     });
   }
 }

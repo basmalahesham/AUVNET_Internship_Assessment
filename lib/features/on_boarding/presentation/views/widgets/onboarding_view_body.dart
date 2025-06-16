@@ -1,8 +1,11 @@
+import 'package:auvnet_flutter_internship_assessment/core/helper/extensions.dart';
 import 'package:auvnet_flutter_internship_assessment/core/helper/space_extension.dart';
+import 'package:auvnet_flutter_internship_assessment/core/routing/routes.dart';
 import 'package:auvnet_flutter_internship_assessment/core/theming/styles/text_styles.dart';
 import 'package:auvnet_flutter_internship_assessment/core/widgets/custom_elevated_button.dart';
 import 'package:auvnet_flutter_internship_assessment/features/on_boarding/data/models/onboarding_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class OnboardingViewBody extends StatefulWidget {
   const OnboardingViewBody({super.key});
@@ -25,7 +28,7 @@ class _OnboardingViewBodyState extends State<OnboardingViewBody> {
   }
 
   void _getStarted() {
-    // login
+    context.pushReplacementNamed(Routes.loginView);
   }
   @override
   Widget build(BuildContext context) {
@@ -38,7 +41,7 @@ class _OnboardingViewBodyState extends State<OnboardingViewBody> {
       itemBuilder: (context, index) {
         final page = onboardingPages[index];
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 36),
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 36.h),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -56,7 +59,7 @@ class _OnboardingViewBodyState extends State<OnboardingViewBody> {
               52.height,
               CustomElevatedButton(
                 onPressed: _getStarted,
-                minimumSize: Size(double.infinity, 44),
+                minimumSize: Size(double.infinity, 44.h),
                 text: "Get Started",
                 style: TextStyles.rubik18Medium,
               ),

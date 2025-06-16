@@ -1,4 +1,6 @@
 import 'package:auvnet_flutter_internship_assessment/core/routing/routes.dart';
+import 'package:auvnet_flutter_internship_assessment/features/auth/presentation/views/login_view.dart';
+import 'package:auvnet_flutter_internship_assessment/features/auth/presentation/views/register_view.dart';
 import 'package:auvnet_flutter_internship_assessment/features/on_boarding/presentation/views/onboarding_view.dart';
 import 'package:auvnet_flutter_internship_assessment/features/splash/presentation/views/splash_view.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +14,10 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const SplashView());
       case Routes.onBoardingView:
         return MaterialPageRoute(builder: (_) => const OnboardingView());
+      case Routes.loginView:
+        return MaterialPageRoute(builder: (_) => const LoginView());
+      case Routes.registerView:
+        return MaterialPageRoute(builder: (_) => const RegisterView());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(
