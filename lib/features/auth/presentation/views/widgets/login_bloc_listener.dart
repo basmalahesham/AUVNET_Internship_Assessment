@@ -6,15 +6,8 @@ import 'package:auvnet_flutter_internship_assessment/features/auth/presentation/
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class RegisterBlocListener extends StatefulWidget {
-  const RegisterBlocListener({super.key});
-
-  @override
-  State<RegisterBlocListener> createState() => _RegisterBlocListenerState();
-}
-
-class _RegisterBlocListenerState extends State<RegisterBlocListener> {
-  //UserModel? user;
+class LoginBlocListener extends StatelessWidget {
+  const LoginBlocListener({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +21,9 @@ class _RegisterBlocListenerState extends State<RegisterBlocListener> {
           );
         } else if (state is AuthSuccess) {
           Navigator.pop(context);
-          //log(user.toString());
           SnackBarService.showSuccessMessage(
             context,
-            'Congratulations, you have signed up successfully!',
+            'Congratulations, you have logged In successfully!',
           );
           context.pushReplacementNamed(Routes.homeLayout);
         } else if (state is AuthFailure) {

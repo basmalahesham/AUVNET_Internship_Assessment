@@ -1,3 +1,4 @@
+import 'package:auvnet_flutter_internship_assessment/features/auth/presentation/views/widgets/login_bloc_listener.dart';
 import 'package:auvnet_flutter_internship_assessment/features/auth/presentation/views/widgets/login_form.dart';
 import 'package:auvnet_flutter_internship_assessment/generated/assets.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,11 @@ class LoginViewBody extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [Image.asset(Assets.imagesNawel), LoginForm()],
+        children: [
+          Image.asset(Assets.imagesNawel),
+          LoginForm(),
+          LoginBlocListener(),
+        ],
       ),
     );
   }

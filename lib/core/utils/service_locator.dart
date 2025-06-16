@@ -2,6 +2,7 @@ import 'package:auvnet_flutter_internship_assessment/features/auth/data/data_sou
 import 'package:auvnet_flutter_internship_assessment/features/auth/data/data_sources/firebase_auth_data_source.dart';
 import 'package:auvnet_flutter_internship_assessment/features/auth/data/repos/auth_repo_impl.dart';
 import 'package:auvnet_flutter_internship_assessment/features/auth/domain/repos/auth_repo.dart';
+import 'package:auvnet_flutter_internship_assessment/features/auth/domain/use_cases/login_user_usecase.dart';
 import 'package:auvnet_flutter_internship_assessment/features/auth/domain/use_cases/register_user_usecase.dart';
 import 'package:auvnet_flutter_internship_assessment/features/auth/presentation/manager/auth/auth_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -28,6 +29,12 @@ Future<void> setUpServiceLocator() async {
     () => RegisterUserUseCase(getIt()),
   );
 
+  getIt.registerLazySingleton<LoginUserUseCase>(
+    () => LoginUserUseCase(getIt()),
+  );
+
   // Bloc
-  getIt.registerFactory(() => AuthBloc(getIt()));
+  getIt.registerFactory<AuthBloc>(
+    () => AuthBloc(getIt<RegisterUserUseCase>(), getIt<LoginUserUseCase>()),
+  );
 }

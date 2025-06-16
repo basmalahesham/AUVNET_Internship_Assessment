@@ -14,4 +14,13 @@ class FirebaseAuthDataSource implements AuthDataSource {
     );
     return credential.user!;
   }
+
+  @override
+  Future<User> login(String email, String password) async {
+    final credential = await _firebaseAuth.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+    return credential.user!;
+  }
 }

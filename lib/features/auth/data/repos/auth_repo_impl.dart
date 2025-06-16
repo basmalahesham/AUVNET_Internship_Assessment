@@ -26,4 +26,19 @@ class AuthRepositoryImpl implements AuthRepository {
       return Left(ServerFailure('Unexpected error: ${e.toString()}'));
     }
   }
+
+  @override
+  Future<Either<Failure, UserEntity>> login({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final user = await _dataSource.login(email, password);
+      return Right(UserModel.fromFirebaseUser(user));
+    } on FirebaseAuthException catch (e) {
+      return Left(AuthFailure(e.message ?? 'Authentication error', code: e.code));
+    } catch (e) {
+      return Left(ServerFailure('Unexpected error: ${e.toString()}'));
+    }
+  }
 }

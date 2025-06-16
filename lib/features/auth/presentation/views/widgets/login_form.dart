@@ -6,7 +6,9 @@ import 'package:auvnet_flutter_internship_assessment/core/theming/colors.dart';
 import 'package:auvnet_flutter_internship_assessment/core/theming/styles/text_styles.dart';
 import 'package:auvnet_flutter_internship_assessment/core/widgets/custom_elevated_button.dart';
 import 'package:auvnet_flutter_internship_assessment/core/widgets/custom_text_form_field.dart';
+import 'package:auvnet_flutter_internship_assessment/features/auth/presentation/manager/auth/auth_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LoginForm extends StatefulWidget {
@@ -61,7 +63,7 @@ class _LoginFormState extends State<LoginForm> {
                 },
                 icon: Icon(
                   isObscure ? Icons.visibility_off : Icons.visibility,
-                  color:  ColorsManager.kPrimaryColor,
+                  color: ColorsManager.kPrimaryColor,
                 ),
               ),
               prefixIcon: Padding(
@@ -77,8 +79,14 @@ class _LoginFormState extends State<LoginForm> {
           CustomElevatedButton(
             onPressed: () {
               if (formKey.currentState!.validate()) {
-                context.pushReplacementNamed(Routes.homeLayout);
-              }            },
+                context.read<AuthBloc>().add(
+                  LoginRequested(
+                    email: emailController.text.trim(),
+                    password: passwordController.text,
+                  ),
+                );
+              }
+            },
             minimumSize: Size(double.infinity, 45.h),
             text: "Login",
             style: TextStyles.dmSans14Medium,
