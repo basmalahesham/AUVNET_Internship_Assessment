@@ -2,18 +2,24 @@
 class Assets {
   Assets._();
 
+  static const String imagesBestSellers = 'assets/images/best_sellers.png';
   static const String imagesCart = 'assets/images/cart.png';
   static const String imagesCategories = 'assets/images/categories.png';
   static const String imagesDeliver = 'assets/images/deliver.png';
   static const String imagesFood1 = 'assets/images/food1.png';
   static const String imagesFood2 = 'assets/images/food2.png';
   static const String imagesFood3 = 'assets/images/food3.png';
+  static const String imagesGiveBack = 'assets/images/give_back.png';
   static const String imagesHome = 'assets/images/home.png';
+  static const String imagesMustTries = 'assets/images/must_tries.png';
   static const String imagesNawel = 'assets/images/nawel.png';
   static const String imagesOnboardingBackground = 'assets/images/Onboarding_background.png';
+  static const String imagesPastOrders = 'assets/images/past_orders.png';
+  static const String imagesPhoto = 'assets/images/photo.png';
   static const String imagesProfile = 'assets/images/profile.png';
   static const String imagesSecurityVault = 'assets/images/SecurityVault.png';
   static const String imagesSplashScreen = 'assets/images/splash_screen.png';
+  static const String imagesSuperSaver = 'assets/images/super_saver.png';
   static const String imagesUser = 'assets/images/user.png';
 
 }
