@@ -17,6 +17,10 @@ class Assets {
   static const String imagesPastOrders = 'assets/images/past_orders.png';
   static const String imagesPhoto = 'assets/images/photo.png';
   static const String imagesProfile = 'assets/images/profile.png';
+  static const String imagesR1 = 'assets/images/r1.png';
+  static const String imagesR2 = 'assets/images/r2.png';
+  static const String imagesR3 = 'assets/images/r3.png';
+  static const String imagesR4 = 'assets/images/r4.png';
   static const String imagesSecurityVault = 'assets/images/SecurityVault.png';
   static const String imagesSplashScreen = 'assets/images/splash_screen.png';
   static const String imagesSuperSaver = 'assets/images/super_saver.png';

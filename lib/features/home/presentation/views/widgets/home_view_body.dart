@@ -1,6 +1,7 @@
 import 'package:auvnet_flutter_internship_assessment/core/helper/space_extension.dart';
 import 'package:auvnet_flutter_internship_assessment/features/home/presentation/views/widgets/custom_appbar_widget.dart';
 import 'package:auvnet_flutter_internship_assessment/features/home/presentation/views/widgets/custom_carousel_slider.dart';
+import 'package:auvnet_flutter_internship_assessment/features/home/presentation/views/widgets/custom_popular_restaurants_nearby_widgets.dart';
 import 'package:auvnet_flutter_internship_assessment/features/home/presentation/views/widgets/custom_services_widget.dart';
 import 'package:auvnet_flutter_internship_assessment/features/home/presentation/views/widgets/custom_shortcuts_widget.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,8 @@ class HomeViewBody extends StatelessWidget {
                       CustomShortcutsWidget(),
                       32.height,
                       CustomCarouselSlider(),
+                      34.height,
+                      CustomPopularRestaurantsNearbyWidgets(),
                     ],
                   ),
                 ),
