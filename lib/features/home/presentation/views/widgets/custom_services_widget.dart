@@ -19,7 +19,7 @@ class CustomServicesWidget extends StatelessWidget {
         Text('Services', style: TextStyles.dmSans20Bold),
         19.height,
         SizedBox(
-          height: 120.h,
+          height: 130.h,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: services.length,
