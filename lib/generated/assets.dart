@@ -16,6 +16,7 @@ class Assets {
   static const String imagesOnboardingBackground = 'assets/images/Onboarding_background.png';
   static const String imagesPastOrders = 'assets/images/past_orders.png';
   static const String imagesPhoto = 'assets/images/photo.png';
+  static const String imagesPlaceholder = 'assets/images/placeholder.png';
   static const String imagesProfile = 'assets/images/profile.png';
   static const String imagesR1 = 'assets/images/r1.png';
   static const String imagesR2 = 'assets/images/r2.png';

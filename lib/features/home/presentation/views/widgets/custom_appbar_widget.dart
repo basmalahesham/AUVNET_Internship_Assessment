@@ -5,8 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomAppbarWidget extends StatelessWidget {
-  const CustomAppbarWidget({super.key, required this.user});
+  const CustomAppbarWidget({
+    super.key,
+    required this.user,
+    this.isPlaceholder = false,
+  });
+
   final UserProfileEntity user;
+  final bool isPlaceholder;
 
   @override
   Widget build(BuildContext context) {
@@ -34,12 +40,25 @@ class CustomAppbarWidget extends StatelessWidget {
               children: [
                 Text('Delivering to', style: TextStyles.dmSans12Bold),
                 4.height,
-                Text(user.address, style: TextStyles.dmSans16Bold),
+                Text(
+                  isPlaceholder ? 'Loading address...' : user.address,
+                  style: TextStyles.dmSans16Bold,
+                ),
                 7.height,
-                Text('Hi ${user.name}!', style: TextStyles.rubik30Bold),
+                Text(
+                  isPlaceholder ? 'Hi there!' : 'Hi ${user.name}!',
+                  style: TextStyles.rubik30Bold,
+                ),
               ],
             ),
-            Image.asset(user.imageUrl),
+            ClipOval(
+              child: Image.asset(
+                user.imageUrl,
+                height: 60,
+                width: 60,
+                fit: BoxFit.cover,
+              ),
+            ),
           ],
         ),
       ),
