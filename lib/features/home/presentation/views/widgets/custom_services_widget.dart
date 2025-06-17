@@ -1,12 +1,14 @@
 import 'package:auvnet_flutter_internship_assessment/core/helper/space_extension.dart';
 import 'package:auvnet_flutter_internship_assessment/core/theming/styles/text_styles.dart';
+import 'package:auvnet_flutter_internship_assessment/features/home/domain/entities/service_entity.dart';
 import 'package:auvnet_flutter_internship_assessment/features/home/presentation/views/widgets/custom_service_item_widget.dart';
 import 'package:auvnet_flutter_internship_assessment/generated/assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomServicesWidget extends StatelessWidget {
-  const CustomServicesWidget({super.key});
+  const CustomServicesWidget({super.key, required this.services});
+  final List<ServiceEntity> services;
 
   @override
   Widget build(BuildContext context) {
@@ -16,28 +18,25 @@ class CustomServicesWidget extends StatelessWidget {
         6.height,
         Text('Services', style: TextStyles.dmSans20Bold),
         19.height,
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            CustomServiceItemWidget(
-              imagePath: Assets.imagesFood1,
-              text: 'Up to 50%',
-              text2: 'food',
-            ),
-            CustomServiceItemWidget(
-              imagePath: Assets.imagesFood1,
-              text: '20 mins',
-              text2: 'Health &\nwellness',
-            ),
-            CustomServiceItemWidget(
-              imagePath: Assets.imagesFood1,
-              text: '15 mins',
-              text2: 'Groceries',
-            ),
-          ],
-        ),
-        19.height,
+        SizedBox(
+          height: 120.h,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: services.length,
+            physics: const BouncingScrollPhysics(),
+            itemBuilder: (context, index) {
+              final service = services[index];
+              return Padding(
+                padding: EdgeInsets.only(right: 12.w),
+                child: CustomServiceItemWidget(
+                  imagePath: service.image,
+                  text: service.tag,
+                  text2: service.name,
+                ),
+              );
+            },
+          ),
+        ),        19.height,
         Container(
           width: double.infinity,
           height: 89.h,

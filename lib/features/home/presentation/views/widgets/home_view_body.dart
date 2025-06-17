@@ -1,9 +1,9 @@
 import 'package:auvnet_flutter_internship_assessment/core/helper/space_extension.dart';
-import 'package:auvnet_flutter_internship_assessment/features/home/presentation/views/widgets/custom_appbar_widget.dart';
-import 'package:auvnet_flutter_internship_assessment/features/home/presentation/views/widgets/custom_carousel_slider.dart';
-import 'package:auvnet_flutter_internship_assessment/features/home/presentation/views/widgets/custom_popular_restaurants_nearby_widgets.dart';
-import 'package:auvnet_flutter_internship_assessment/features/home/presentation/views/widgets/custom_services_widget.dart';
+import 'package:auvnet_flutter_internship_assessment/features/home/presentation/views/widgets/banner_bloc_builder_widget.dart';
 import 'package:auvnet_flutter_internship_assessment/features/home/presentation/views/widgets/custom_shortcuts_widget.dart';
+import 'package:auvnet_flutter_internship_assessment/features/home/presentation/views/widgets/restaurant_bloc_builder_widget.dart';
+import 'package:auvnet_flutter_internship_assessment/features/home/presentation/views/widgets/services_bloc_builder_widget.dart';
+import 'package:auvnet_flutter_internship_assessment/features/home/presentation/views/widgets/user_profile_bloc_builder_widget.dart';
 import 'package:flutter/material.dart';
 
 class HomeViewBody extends StatelessWidget {
@@ -13,7 +13,7 @@ class HomeViewBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        CustomAppbarWidget(),
+        UserProfileBlocBuilderWidget(),
         Expanded(
           child: CustomScrollView(
             physics: BouncingScrollPhysics(),
@@ -23,13 +23,13 @@ class HomeViewBody extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Column(
                     children: [
-                      CustomServicesWidget(),
+                      ServicesBlocBuilderWidget(),
                       14.height,
                       CustomShortcutsWidget(),
                       32.height,
-                      CustomCarouselSlider(),
+                      BannerBlocBuilderWidget(),
                       34.height,
-                      CustomPopularRestaurantsNearbyWidgets(),
+                      RestaurantBlocBuilderWidget(),
                     ],
                   ),
                 ),

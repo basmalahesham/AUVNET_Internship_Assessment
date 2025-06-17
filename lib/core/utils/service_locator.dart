@@ -5,6 +5,7 @@ import 'package:auvnet_flutter_internship_assessment/features/auth/domain/repos/
 import 'package:auvnet_flutter_internship_assessment/features/auth/domain/use_cases/login_user_usecase.dart';
 import 'package:auvnet_flutter_internship_assessment/features/auth/domain/use_cases/register_user_usecase.dart';
 import 'package:auvnet_flutter_internship_assessment/features/auth/presentation/manager/auth/auth_bloc.dart';
+
 import 'package:auvnet_flutter_internship_assessment/features/home/data/data_sources/home_remote_data_source.dart';
 import 'package:auvnet_flutter_internship_assessment/features/home/data/repos/home_repository_impl.dart';
 import 'package:auvnet_flutter_internship_assessment/features/home/domain/repos/home_repository.dart';
@@ -12,76 +13,64 @@ import 'package:auvnet_flutter_internship_assessment/features/home/domain/use_ca
 import 'package:auvnet_flutter_internship_assessment/features/home/domain/use_cases/get_restaurants_usecase.dart';
 import 'package:auvnet_flutter_internship_assessment/features/home/domain/use_cases/get_services_usecase.dart';
 import 'package:auvnet_flutter_internship_assessment/features/home/domain/use_cases/get_user_profile_usecase.dart';
-import 'package:auvnet_flutter_internship_assessment/features/home/presentation/manager/home_bloc.dart';
+
+import 'package:auvnet_flutter_internship_assessment/features/home/presentation/manager/banner_bloc/banner_bloc.dart';
+import 'package:auvnet_flutter_internship_assessment/features/home/presentation/manager/restaurant_bloc/restaurant_bloc.dart';
+import 'package:auvnet_flutter_internship_assessment/features/home/presentation/manager/service_bloc/service_bloc.dart';
+import 'package:auvnet_flutter_internship_assessment/features/home/presentation/manager/user_profile_bloc/user_profile_bloc.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:get_it/get_it.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get_it/get_it.dart';
 
 final getIt = GetIt.instance;
 
 Future<void> setUpServiceLocator() async {
-  // Firebase dependencies
+  // Firebase
   getIt.registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
-  // Firebase Firestore
   getIt.registerLazySingleton<FirebaseFirestore>(
     () => FirebaseFirestore.instance,
   );
 
-  // Data sources
+  // Auth
   getIt.registerLazySingleton<AuthDataSource>(
     () => FirebaseAuthDataSource(getIt()),
   );
-
-  // Repository
   getIt.registerLazySingleton<AuthRepository>(
     () => AuthRepositoryImpl(getIt()),
   );
-
-  // Use Cases
   getIt.registerLazySingleton<RegisterUserUseCase>(
     () => RegisterUserUseCase(getIt()),
   );
-
   getIt.registerLazySingleton<LoginUserUseCase>(
     () => LoginUserUseCase(getIt()),
   );
+  getIt.registerFactory<AuthBloc>(() => AuthBloc(getIt(), getIt()));
 
-  // Bloc
-  getIt.registerFactory<AuthBloc>(
-    () => AuthBloc(getIt<RegisterUserUseCase>(), getIt<LoginUserUseCase>()),
-  );
-
-  // Home Remote Data Source
+  // Home
   getIt.registerLazySingleton<HomeRemoteDataSource>(
-    () => FirebaseHomeDataSource(getIt<FirebaseFirestore>()),
+    () => FirebaseHomeDataSource(getIt()),
   );
-
-  // Home Repository
   getIt.registerLazySingleton<HomeRepository>(
-    () => HomeRepositoryImpl(getIt<HomeRemoteDataSource>()),
+    () => HomeRepositoryImpl(getIt()),
   );
 
-  // Home UseCases
   getIt.registerLazySingleton<GetBannersUseCase>(
-    () => GetBannersUseCase(getIt<HomeRepository>()),
+    () => GetBannersUseCase(getIt()),
   );
   getIt.registerLazySingleton<GetServicesUseCase>(
-    () => GetServicesUseCase(getIt<HomeRepository>()),
+    () => GetServicesUseCase(getIt()),
   );
   getIt.registerLazySingleton<GetRestaurantsUseCase>(
-    () => GetRestaurantsUseCase(getIt<HomeRepository>()),
+    () => GetRestaurantsUseCase(getIt()),
   );
   getIt.registerLazySingleton<GetUserProfileUseCase>(
-    () => GetUserProfileUseCase(getIt<HomeRepository>()),
+    () => GetUserProfileUseCase(getIt()),
   );
 
-  // Home Bloc
-  getIt.registerFactory<HomeBloc>(
-    () => HomeBloc(
-      getIt<GetBannersUseCase>(),
-      getIt<GetServicesUseCase>(),
-      getIt<GetRestaurantsUseCase>(),
-      getIt<GetUserProfileUseCase>(),
-    ),
-  );
+  // Blocs
+  getIt.registerFactory<BannerBloc>(() => BannerBloc(getIt()));
+  getIt.registerFactory<RestaurantBloc>(() => RestaurantBloc(getIt()));
+  getIt.registerFactory<ServiceBloc>(() => ServiceBloc(getIt()));
+  getIt.registerFactory<UserProfileBloc>(() => UserProfileBloc(getIt()));
 }
