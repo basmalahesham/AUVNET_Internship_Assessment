@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import '../../domain/entities/restaurant_entity.dart';
 
 class RestaurantModel extends RestaurantEntity {
@@ -8,9 +10,10 @@ class RestaurantModel extends RestaurantEntity {
     required super.deliveryTime,
   });
 
-  factory RestaurantModel.fromMap(Map<String, dynamic> map) {
+  factory RestaurantModel.fromDoc(DocumentSnapshot doc) {
+    final map = doc.data() as Map<String, dynamic>;
     return RestaurantModel(
-      id: map['id'] ?? '',
+      id: doc.id,
       name: map['name'] ?? '',
       image: map['image'] ?? '',
       deliveryTime: map['deliveryTime'] ?? '',

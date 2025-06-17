@@ -1,4 +1,5 @@
 import 'package:auvnet_flutter_internship_assessment/features/home/domain/entities/service_entity.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ServiceModel extends ServiceEntity {
   const ServiceModel({
@@ -7,12 +8,14 @@ class ServiceModel extends ServiceEntity {
     required super.image,
     required super.tag,
   });
-  factory ServiceModel.fromMap(Map<String, dynamic> map) {
+
+  factory ServiceModel.fromDoc(DocumentSnapshot doc) {
+    final map = doc.data() as Map<String, dynamic>;
     return ServiceModel(
-      id: map['id'],
-      name: map['name'],
-      image: map['image'],
-      tag: map['tag'],
+      id: doc.id,
+      name: map['name'] ?? '',
+      image: map['image'] ?? '',
+      tag: map['tag'] ?? '',
     );
   }
 }

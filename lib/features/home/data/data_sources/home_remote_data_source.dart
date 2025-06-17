@@ -1,15 +1,14 @@
-import 'package:auvnet_flutter_internship_assessment/features/home/data/models/banner_model.dart';
-import 'package:auvnet_flutter_internship_assessment/features/home/data/models/restaurant_model.dart';
-import 'package:auvnet_flutter_internship_assessment/features/home/data/models/srevice_model.dart';
-import 'package:auvnet_flutter_internship_assessment/features/home/data/models/user_profile_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../models/banner_model.dart';
+import '../models/restaurant_model.dart';
+import '../models/srevice_model.dart';
+import '../models/user_profile_model.dart';
 
 abstract class HomeRemoteDataSource {
   Future<List<BannerModel>> fetchBanners();
   Future<List<ServiceModel>> fetchServices();
   Future<List<RestaurantModel>> fetchRestaurants();
   Future<UserProfileModel> fetchUserProfile(String userId);
-
 }
 
 class FirebaseHomeDataSource implements HomeRemoteDataSource {
@@ -18,29 +17,43 @@ class FirebaseHomeDataSource implements HomeRemoteDataSource {
 
   @override
   Future<List<BannerModel>> fetchBanners() async {
-    final snapshot = await _firestore.collection('banners').get();
-    return snapshot.docs.map((d) => BannerModel.fromMap(d.data())).toList();
+    try {
+      final snapshot = await _firestore.collection('banners').get();
+      return snapshot.docs.map((d) => BannerModel.fromDoc(d)).toList();
+    } catch (e) {
+      throw Exception('Failed to fetch banners: $e');
+    }
   }
 
   @override
   Future<List<ServiceModel>> fetchServices() async {
-    final snapshot = await _firestore.collection('services').get();
-    return snapshot.docs
-        .map((doc) => ServiceModel.fromMap(doc.data()))
-        .toList();
+    try {
+      final snapshot = await _firestore.collection('services').get();
+      return snapshot.docs.map((d) => ServiceModel.fromDoc(d)).toList();
+    } catch (e) {
+      throw Exception('Failed to fetch services: $e');
+    }
   }
 
   @override
   Future<List<RestaurantModel>> fetchRestaurants() async {
-    final snapshot = await _firestore.collection('restaurants').get();
-    return snapshot.docs
-        .map((doc) => RestaurantModel.fromMap(doc.data()))
-        .toList();
+    try {
+      final snapshot = await _firestore.collection('restaurants').get();
+      return snapshot.docs.map((d) => RestaurantModel.fromDoc(d)).toList();
+    } catch (e) {
+      throw Exception('Failed to fetch restaurants: $e');
+    }
   }
 
   @override
   Future<UserProfileModel> fetchUserProfile(String userId) async {
-    final doc = await _firestore.collection('users').doc(userId).get();
-    return UserProfileModel.fromMap(doc.id, doc.data()!);
+    try {
+      final doc = await _firestore.collection('users').doc(userId).get();
+      final data = doc.data();
+      if (data == null) throw Exception('User not found');
+      return UserProfileModel.fromDoc(doc);
+    } catch (e) {
+      throw Exception('Failed to fetch user profile: $e');
+    }
   }
 }

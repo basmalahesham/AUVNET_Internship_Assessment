@@ -3,10 +3,10 @@ import 'package:auvnet_flutter_internship_assessment/features/home/domain/entiti
 import 'package:auvnet_flutter_internship_assessment/features/home/domain/repos/home_repository.dart';
 import 'package:dartz/dartz.dart';
 
-class GetRestaurantUseCase{
+class GetRestaurantsUseCase{
   final HomeRepository homeRepository;
 
-  GetRestaurantUseCase(this.homeRepository);
+  GetRestaurantsUseCase(this.homeRepository);
 
   Future<Either<Failure,List<RestaurantEntity>>> call() {
     return homeRepository.getRestaurants();

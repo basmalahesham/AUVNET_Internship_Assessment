@@ -1,4 +1,5 @@
 import 'package:auvnet_flutter_internship_assessment/features/home/domain/entities/user_profile_entity.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserProfileModel extends UserProfileEntity {
   const UserProfileModel({
@@ -8,12 +9,13 @@ class UserProfileModel extends UserProfileEntity {
     required super.imageUrl,
   });
 
-  factory UserProfileModel.fromMap(String docId, Map<String, dynamic> map) {
+  factory UserProfileModel.fromDoc(DocumentSnapshot doc) {
+    final map = doc.data() as Map<String, dynamic>;
     return UserProfileModel(
-      id: docId,
-      name: map['name'] as String? ?? '',
-      address: map['address'] as String? ?? '',
-      imageUrl: map['imageUrl'] as String? ?? '',
+      id: doc.id,
+      name: map['name'] ?? '',
+      address: map['address'] ?? '',
+      imageUrl: map['imageUrl'] ?? '',
     );
   }
 }

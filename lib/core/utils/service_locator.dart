@@ -68,8 +68,8 @@ Future<void> setUpServiceLocator() async {
   getIt.registerLazySingleton<GetServicesUseCase>(
     () => GetServicesUseCase(getIt<HomeRepository>()),
   );
-  getIt.registerLazySingleton<GetRestaurantUseCase>(
-    () => GetRestaurantUseCase(getIt<HomeRepository>()),
+  getIt.registerLazySingleton<GetRestaurantsUseCase>(
+    () => GetRestaurantsUseCase(getIt<HomeRepository>()),
   );
   getIt.registerLazySingleton<GetUserProfileUseCase>(
     () => GetUserProfileUseCase(getIt<HomeRepository>()),
@@ -80,7 +80,7 @@ Future<void> setUpServiceLocator() async {
     () => HomeBloc(
       getIt<GetBannersUseCase>(),
       getIt<GetServicesUseCase>(),
-      getIt<GetRestaurantUseCase>(),
+      getIt<GetRestaurantsUseCase>(),
       getIt<GetUserProfileUseCase>(),
     ),
   );
