@@ -1,5 +1,7 @@
 import 'package:auvnet_flutter_internship_assessment/core/helper/extensions.dart';
 import 'package:auvnet_flutter_internship_assessment/core/routing/routes.dart';
+import 'package:auvnet_flutter_internship_assessment/core/utils/service_locator.dart';
+import 'package:auvnet_flutter_internship_assessment/features/auth/data/data_sources/auth_local_data_source.dart';
 import 'package:auvnet_flutter_internship_assessment/generated/assets.dart';
 import 'package:flutter/material.dart';
 
@@ -19,13 +21,13 @@ class _SplashViewBodyState extends State<SplashViewBody>
   void initState() {
     super.initState();
     initSlidingAnimation();
-    navigateToOnBoarding();
+    decideNavigationBasedOnUser();
   }
 
   @override
   void dispose() {
-    super.dispose();
     animationController.dispose();
+    super.dispose();
   }
 
   @override
@@ -53,9 +55,16 @@ class _SplashViewBodyState extends State<SplashViewBody>
     animationController.forward();
   }
 
-  void navigateToOnBoarding() async {
-    Future.delayed(const Duration(seconds: 2), () {
+  void decideNavigationBasedOnUser() async {
+    await Future.delayed(const Duration(seconds: 2));
+
+    final authLocal = getIt<AuthLocalDataSource>();
+    final cachedUser = await authLocal.getCachedUser();
+
+    if (cachedUser != null) {
+      context.pushReplacementNamed(Routes.homeLayout);
+    } else {
       context.pushReplacementNamed(Routes.onBoardingView);
-    });
+    }
   }
 }

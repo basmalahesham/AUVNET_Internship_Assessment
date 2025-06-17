@@ -1,5 +1,7 @@
-import 'package:auvnet_flutter_internship_assessment/features/auth/data/data_sources/auth_data_source.dart';
-import 'package:auvnet_flutter_internship_assessment/features/auth/data/data_sources/firebase_auth_data_source.dart';
+import 'package:auvnet_flutter_internship_assessment/core/utils/constants.dart';
+import 'package:auvnet_flutter_internship_assessment/features/auth/data/data_sources/auth_local_data_source.dart';
+import 'package:auvnet_flutter_internship_assessment/features/auth/data/data_sources/auth_remote_data_source.dart';
+import 'package:auvnet_flutter_internship_assessment/features/auth/data/models/user_model.dart';
 import 'package:auvnet_flutter_internship_assessment/features/auth/data/repos/auth_repo_impl.dart';
 import 'package:auvnet_flutter_internship_assessment/features/auth/domain/repos/auth_repo.dart';
 import 'package:auvnet_flutter_internship_assessment/features/auth/domain/use_cases/login_user_usecase.dart';
@@ -22,10 +24,13 @@ import 'package:auvnet_flutter_internship_assessment/features/home/presentation/
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hive/hive.dart';
 
 final getIt = GetIt.instance;
 
 Future<void> setUpServiceLocator() async {
+  final userBox = Hive.box<UserModel>(kUserBox);
+
   // Firebase
   getIt.registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
   getIt.registerLazySingleton<FirebaseFirestore>(
@@ -33,11 +38,14 @@ Future<void> setUpServiceLocator() async {
   );
 
   // Auth
-  getIt.registerLazySingleton<AuthDataSource>(
+  getIt.registerLazySingleton<AuthRemoteDataSource>(
     () => FirebaseAuthDataSource(getIt()),
   );
+  getIt.registerLazySingleton<AuthLocalDataSource>(
+    () => HiveAuthLocalDataSource(userBox),
+  );
   getIt.registerLazySingleton<AuthRepository>(
-    () => AuthRepositoryImpl(getIt()),
+    () => AuthRepositoryImpl(getIt(), getIt()),
   );
   getIt.registerLazySingleton<RegisterUserUseCase>(
     () => RegisterUserUseCase(getIt()),
@@ -54,7 +62,6 @@ Future<void> setUpServiceLocator() async {
   getIt.registerLazySingleton<HomeRepository>(
     () => HomeRepositoryImpl(getIt()),
   );
-
   getIt.registerLazySingleton<GetBannersUseCase>(
     () => GetBannersUseCase(getIt()),
   );

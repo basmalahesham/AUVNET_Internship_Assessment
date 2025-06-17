@@ -1,7 +1,11 @@
-import 'package:auvnet_flutter_internship_assessment/features/auth/data/data_sources/auth_data_source.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class FirebaseAuthDataSource implements AuthDataSource {
+abstract class AuthRemoteDataSource {
+  Future<User> register(String email, String password);
+  Future<User> login(String email, String password);
+}
+
+class FirebaseAuthDataSource implements AuthRemoteDataSource {
   final FirebaseAuth _firebaseAuth;
 
   FirebaseAuthDataSource(this._firebaseAuth);

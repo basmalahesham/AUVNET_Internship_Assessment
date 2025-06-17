@@ -12,7 +12,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final RegisterUserUseCase registerUserUseCase;
   final LoginUserUseCase loginUserUseCase;
 
-  AuthBloc(this.registerUserUseCase,this.loginUserUseCase) : super(AuthInitial()) {
+  AuthBloc(this.registerUserUseCase, this.loginUserUseCase)
+    : super(AuthInitial()) {
     on<RegisterRequested>(_onRegisterRequested);
     on<LoginRequested>(_onLoginRequested);
   }
@@ -35,9 +36,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   Future<void> _onLoginRequested(
-      LoginRequested event,
-      Emitter<AuthState> emit,
-      ) async {
+    LoginRequested event,
+    Emitter<AuthState> emit,
+  ) async {
     emit(AuthLoading());
 
     final result = await loginUserUseCase(
@@ -46,8 +47,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
 
     result.fold(
-          (failure) => emit(AuthFailure(failure.message)),
-          (user) => emit(AuthSuccess(user)),
+      (failure) => emit(AuthFailure(failure.message)),
+      (user) => emit(AuthSuccess(user)),
     );
   }
 }
