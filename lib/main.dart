@@ -5,6 +5,7 @@ import 'package:auvnet_flutter_internship_assessment/core/utils/service_locator.
 import 'package:auvnet_flutter_internship_assessment/core/utils/simple_bloc_observer.dart';
 import 'package:auvnet_flutter_internship_assessment/core/widgets/loading_service.dart';
 import 'package:auvnet_flutter_internship_assessment/features/auth/data/models/user_model.dart';
+import 'package:auvnet_flutter_internship_assessment/features/home/data/models/service_model.dart';
 import 'package:auvnet_flutter_internship_assessment/firebase_options.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -19,8 +20,14 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await Hive.initFlutter();
-  Hive.registerAdapter(UserModelAdapter());
+  if (!Hive.isAdapterRegistered(0)) {
+    Hive.registerAdapter(UserModelAdapter());
+  }
   await Hive.openBox<UserModel>(kUserBox);
+  if (!Hive.isAdapterRegistered(1)) {
+    Hive.registerAdapter(ServiceModelAdapter());
+  }
+  await Hive.openBox<ServiceModel>(kServiceBox);
   Bloc.observer = SimpleBlocObserver();
   await setUpServiceLocator();
   configLoading();

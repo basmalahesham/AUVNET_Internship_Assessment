@@ -7,8 +7,10 @@ import 'package:auvnet_flutter_internship_assessment/features/auth/domain/repos/
 import 'package:auvnet_flutter_internship_assessment/features/auth/domain/use_cases/login_user_usecase.dart';
 import 'package:auvnet_flutter_internship_assessment/features/auth/domain/use_cases/register_user_usecase.dart';
 import 'package:auvnet_flutter_internship_assessment/features/auth/presentation/manager/auth/auth_bloc.dart';
+import 'package:auvnet_flutter_internship_assessment/features/home/data/data_sources/home_local_data_source.dart';
 
 import 'package:auvnet_flutter_internship_assessment/features/home/data/data_sources/home_remote_data_source.dart';
+import 'package:auvnet_flutter_internship_assessment/features/home/data/models/service_model.dart';
 import 'package:auvnet_flutter_internship_assessment/features/home/data/repos/home_repository_impl.dart';
 import 'package:auvnet_flutter_internship_assessment/features/home/domain/repos/home_repository.dart';
 import 'package:auvnet_flutter_internship_assessment/features/home/domain/use_cases/get_banners_use_case.dart';
@@ -30,6 +32,7 @@ final getIt = GetIt.instance;
 
 Future<void> setUpServiceLocator() async {
   final userBox = Hive.box<UserModel>(kUserBox);
+  final servicesBox = Hive.box<ServiceModel>(kServiceBox);
 
   // Firebase
   getIt.registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
@@ -59,8 +62,11 @@ Future<void> setUpServiceLocator() async {
   getIt.registerLazySingleton<HomeRemoteDataSource>(
     () => FirebaseHomeDataSource(getIt()),
   );
+  getIt.registerLazySingleton<HomeLocalDataSource>(
+    () => HiveHomeLocalDataSource(servicesBox),
+  );
   getIt.registerLazySingleton<HomeRepository>(
-    () => HomeRepositoryImpl(getIt()),
+    () => HomeRepositoryImpl(getIt(), getIt()),
   );
   getIt.registerLazySingleton<GetBannersUseCase>(
     () => GetBannersUseCase(getIt()),

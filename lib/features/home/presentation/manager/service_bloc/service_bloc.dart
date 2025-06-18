@@ -14,13 +14,16 @@ class ServiceBloc extends Bloc<ServiceEvent, ServiceState> {
     on<LoadServices>(_onLoadServices);
   }
 
-  Future<void> _onLoadServices(LoadServices event, Emitter<ServiceState> emit) async {
+  Future<void> _onLoadServices(
+    LoadServices event,
+    Emitter<ServiceState> emit,
+  ) async {
     emit(ServiceLoading());
 
     final result = await getServices();
     result.fold(
-          (failure) => emit(ServiceFailure(failure.message)),
-          (services) => emit(ServiceSuccess(services)),
+      (failure) => emit(ServiceFailure(failure.message)),
+      (services) => emit(ServiceSuccess(services)),
     );
   }
 }

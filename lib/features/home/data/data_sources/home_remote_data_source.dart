@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/banner_model.dart';
 import '../models/restaurant_model.dart';
-import '../models/srevice_model.dart';
+import '../models/service_model.dart';
 import '../models/user_profile_model.dart';
 
 abstract class HomeRemoteDataSource {
