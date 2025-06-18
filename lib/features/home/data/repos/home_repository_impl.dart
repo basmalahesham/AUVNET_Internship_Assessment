@@ -9,14 +9,14 @@ import '../../../../core/errors/failures.dart';
 import '../data_sources/home_remote_data_source.dart';
 
 class HomeRepositoryImpl implements HomeRepository {
-  final HomeRemoteDataSource dataSource;
-  final HomeLocalDataSource local;
-  HomeRepositoryImpl(this.dataSource, this.local);
+  final HomeRemoteDataSource remoteDataSource;
+  final HomeLocalDataSource localDataSource;
+  HomeRepositoryImpl(this.remoteDataSource, this.localDataSource);
 
   @override
   Future<Either<Failure, List<BannerEntity>>> getBanners() async {
     try {
-      return Right(await dataSource.fetchBanners());
+      return Right(await remoteDataSource.fetchBanners());
     } catch (_) {
       return Left(ServerFailure('Error fetching banners'));
     }
@@ -24,15 +24,15 @@ class HomeRepositoryImpl implements HomeRepository {
 
   @override
   Stream<Either<Failure, List<ServiceEntity>>> getServices() async* {
-    final cached = await local.getCachedServices();
+    final cached = await localDataSource.getCachedServices();
     if (cached != null && cached.isNotEmpty) {
       yield Right(cached);
     }
     try {
-      final stream = dataSource.fetchServices();
+      final stream = remoteDataSource.fetchServices();
       await for (final updated in stream) {
-        await local.clearCachedServices();
-        await local.cacheServices(updated);
+        await localDataSource.clearCachedServices();
+        await localDataSource.cacheServices(updated);
         yield Right(updated);
       }
     } catch (_) {
@@ -43,12 +43,23 @@ class HomeRepositoryImpl implements HomeRepository {
   }
 
   @override
-  Future<Either<Failure, List<RestaurantEntity>>> getRestaurants() async {
+  Stream<Either<Failure, List<RestaurantEntity>>> getRestaurants() async* {
+    final cached = await localDataSource.getCachedRestaurants();
+    if (cached != null && cached.isNotEmpty) {
+      yield Right(cached);
+    }
+
     try {
-      final list = await dataSource.fetchRestaurants();
-      return Right(list);
-    } catch (e) {
-      return Left(ServerFailure('Failed to load restaurants'));
+      final stream = remoteDataSource.fetchRestaurants();
+      await for (final updated in stream) {
+        await localDataSource.clearCachedRestaurants();
+        await localDataSource.cacheRestaurants(updated);
+        yield Right(updated);
+      }
+    } catch (_) {
+      if (cached == null || cached.isEmpty) {
+        yield Left(ServerFailure('Failed to fetch restaurants'));
+      }
     }
   }
 
@@ -57,7 +68,7 @@ class HomeRepositoryImpl implements HomeRepository {
     String userId,
   ) async {
     try {
-      final model = await dataSource.fetchUserProfile(userId);
+      final model = await remoteDataSource.fetchUserProfile(userId);
       return Right(model);
     } catch (e) {
       return Left(ServerFailure('Failed to load user profile'));

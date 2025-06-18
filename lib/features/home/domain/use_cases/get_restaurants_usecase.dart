@@ -8,7 +8,7 @@ class GetRestaurantsUseCase{
 
   GetRestaurantsUseCase(this.homeRepository);
 
-  Future<Either<Failure,List<RestaurantEntity>>> call() {
+  Stream<Either<Failure,List<RestaurantEntity>>> call() {
     return homeRepository.getRestaurants();
   }
 }

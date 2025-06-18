@@ -8,6 +8,6 @@ import '../entities/banner_entity.dart';
 abstract class HomeRepository {
   Future<Either<Failure, List<BannerEntity>>> getBanners();
   Stream<Either<Failure, List<ServiceEntity>>> getServices();
-  Future<Either<Failure, List<RestaurantEntity>>> getRestaurants();
+  Stream<Either<Failure, List<RestaurantEntity>>> getRestaurants();
   Future<Either<Failure, UserProfileEntity>> getUserProfile(String userId);
 }

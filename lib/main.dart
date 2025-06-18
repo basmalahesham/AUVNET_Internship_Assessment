@@ -5,6 +5,7 @@ import 'package:auvnet_flutter_internship_assessment/core/utils/service_locator.
 import 'package:auvnet_flutter_internship_assessment/core/utils/simple_bloc_observer.dart';
 import 'package:auvnet_flutter_internship_assessment/core/widgets/loading_service.dart';
 import 'package:auvnet_flutter_internship_assessment/features/auth/data/models/user_model.dart';
+import 'package:auvnet_flutter_internship_assessment/features/home/data/models/restaurant_model.dart';
 import 'package:auvnet_flutter_internship_assessment/features/home/data/models/service_model.dart';
 import 'package:auvnet_flutter_internship_assessment/firebase_options.dart';
 import 'package:bot_toast/bot_toast.dart';
@@ -28,6 +29,10 @@ void main() async {
     Hive.registerAdapter(ServiceModelAdapter());
   }
   await Hive.openBox<ServiceModel>(kServiceBox);
+  if (!Hive.isAdapterRegistered(2)) {
+    Hive.registerAdapter(RestaurantModelAdapter());
+  }
+  await Hive.openBox<RestaurantModel>(kRestaurantBox);
   Bloc.observer = SimpleBlocObserver();
   await setUpServiceLocator();
   configLoading();

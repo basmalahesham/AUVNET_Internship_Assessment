@@ -7,7 +7,7 @@ import '../models/user_profile_model.dart';
 abstract class HomeRemoteDataSource {
   Future<List<BannerModel>> fetchBanners();
   Stream<List<ServiceModel>> fetchServices();
-  Future<List<RestaurantModel>> fetchRestaurants();
+  Stream<List<RestaurantModel>> fetchRestaurants();
   Future<UserProfileModel> fetchUserProfile(String userId);
 }
 
@@ -33,13 +33,10 @@ class FirebaseHomeDataSource implements HomeRemoteDataSource {
   }
 
   @override
-  Future<List<RestaurantModel>> fetchRestaurants() async {
-    try {
-      final snapshot = await _firestore.collection('restaurants').get();
-      return snapshot.docs.map((d) => RestaurantModel.fromDoc(d)).toList();
-    } catch (e) {
-      throw Exception('Failed to fetch restaurants: $e');
-    }
+  Stream<List<RestaurantModel>> fetchRestaurants() {
+    return _firestore.collection('restaurants').snapshots().map((snapshot) {
+      return snapshot.docs.map((doc) => RestaurantModel.fromDoc(doc)).toList();
+    });
   }
 
   @override
