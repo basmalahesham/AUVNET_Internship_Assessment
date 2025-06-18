@@ -23,23 +23,21 @@ class HomeRepositoryImpl implements HomeRepository {
   }
 
   @override
-  Future<Either<Failure, List<ServiceEntity>>> getServices() async {
+  Stream<List<ServiceEntity>> getServices() async* {
     try {
-      dataSource.fetchServices().listen((updatedList) async {
+      final stream = dataSource.fetchServices();
+      await for (final updated in stream) {
         await local.clearCachedServices();
-        await local.cacheServices(updatedList);
-      });
-
+        await local.cacheServices(updated);
+        yield updated;
+      }
+    } catch (_) {
       final cached = await local.getCachedServices();
       if (cached != null && cached.isNotEmpty) {
-        return Right(cached);
+        yield cached;
+      } else {
+        yield [];
       }
-      final firstSnapshot = await dataSource.fetchServices().first;
-      await local.clearCachedServices();
-      await local.cacheServices(firstSnapshot);
-      return Right(firstSnapshot);
-    } catch (e) {
-      return Left(ServerFailure('Failed to load services'));
     }
   }
 
@@ -55,8 +53,8 @@ class HomeRepositoryImpl implements HomeRepository {
 
   @override
   Future<Either<Failure, UserProfileEntity>> getUserProfile(
-    String userId,
-  ) async {
+      String userId,
+      ) async {
     try {
       final model = await dataSource.fetchUserProfile(userId);
       return Right(model);

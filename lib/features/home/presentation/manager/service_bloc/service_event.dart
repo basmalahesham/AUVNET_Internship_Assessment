@@ -8,3 +8,10 @@ abstract class ServiceEvent extends Equatable {
 }
 
 class LoadServices extends ServiceEvent {}
+class _ServicesUpdated extends ServiceEvent {
+  final List<ServiceEntity> services;
+  const _ServicesUpdated(this.services);
+
+  @override
+  List<Object> get props => [services];
+}
