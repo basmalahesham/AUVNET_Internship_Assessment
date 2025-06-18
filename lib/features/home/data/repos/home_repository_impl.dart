@@ -1,5 +1,4 @@
 import 'package:auvnet_flutter_internship_assessment/features/home/data/data_sources/home_local_data_source.dart';
-import 'package:auvnet_flutter_internship_assessment/features/home/data/models/service_model.dart';
 import 'package:auvnet_flutter_internship_assessment/features/home/domain/entities/banner_entity.dart';
 import 'package:auvnet_flutter_internship_assessment/features/home/domain/entities/restaurant_entity.dart';
 import 'package:auvnet_flutter_internship_assessment/features/home/domain/entities/service_entity.dart';
@@ -25,16 +24,20 @@ class HomeRepositoryImpl implements HomeRepository {
 
   @override
   Future<Either<Failure, List<ServiceEntity>>> getServices() async {
-    final cached = await local.getCachedServices();
-    if (cached != null && cached.isNotEmpty) {
-      return Right(cached);
-    }
-
     try {
-      final services = await dataSource.fetchServices();
-      final models = services.cast<ServiceModel>();
-      await local.cacheServices(models);
-      return Right(models);
+      dataSource.fetchServices().listen((updatedList) async {
+        await local.clearCachedServices();
+        await local.cacheServices(updatedList);
+      });
+
+      final cached = await local.getCachedServices();
+      if (cached != null && cached.isNotEmpty) {
+        return Right(cached);
+      }
+      final firstSnapshot = await dataSource.fetchServices().first;
+      await local.clearCachedServices();
+      await local.cacheServices(firstSnapshot);
+      return Right(firstSnapshot);
     } catch (e) {
       return Left(ServerFailure('Failed to load services'));
     }
