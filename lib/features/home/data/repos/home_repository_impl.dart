@@ -23,23 +23,24 @@ class HomeRepositoryImpl implements HomeRepository {
   }
 
   @override
-  Stream<List<ServiceEntity>> getServices() async* {
+  Stream<Either<Failure, List<ServiceEntity>>> getServices() async* {
     try {
       final stream = dataSource.fetchServices();
       await for (final updated in stream) {
         await local.clearCachedServices();
         await local.cacheServices(updated);
-        yield updated;
+        yield Right(updated);
       }
     } catch (_) {
       final cached = await local.getCachedServices();
       if (cached != null && cached.isNotEmpty) {
-        yield cached;
+        yield Right(cached);
       } else {
-        yield [];
+        yield Left(ServerFailure('Failed to fetch services'));
       }
     }
   }
+
 
   @override
   Future<Either<Failure, List<RestaurantEntity>>> getRestaurants() async {
