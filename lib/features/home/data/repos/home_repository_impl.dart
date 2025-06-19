@@ -75,8 +75,13 @@ class HomeRepositoryImpl implements HomeRepository {
   Future<Either<Failure, UserProfileEntity>> getUserProfile(
     String userId,
   ) async {
+    final cached = await localDataSource.getCachedUserProfile();
+    if (cached != null) {
+      return Right(cached);
+    }
     try {
       final model = await remoteDataSource.fetchUserProfile(userId);
+      await localDataSource.cacheUserProfile(model);
       return Right(model);
     } catch (e) {
       return Left(ServerFailure('Failed to load user profile'));

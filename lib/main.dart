@@ -8,6 +8,7 @@ import 'package:auvnet_flutter_internship_assessment/features/auth/data/models/u
 import 'package:auvnet_flutter_internship_assessment/features/home/data/models/banner_model.dart';
 import 'package:auvnet_flutter_internship_assessment/features/home/data/models/restaurant_model.dart';
 import 'package:auvnet_flutter_internship_assessment/features/home/data/models/service_model.dart';
+import 'package:auvnet_flutter_internship_assessment/features/home/data/models/user_profile_model.dart';
 import 'package:auvnet_flutter_internship_assessment/firebase_options.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -38,6 +39,10 @@ void main() async {
     Hive.registerAdapter(BannerModelAdapter());
   }
   await Hive.openBox<BannerModel>(kBannerBox);
+  if (!Hive.isAdapterRegistered(4)) {
+    Hive.registerAdapter(UserProfileModelAdapter());
+  }
+  await Hive.openBox<UserProfileModel>(kUserProfileBox);
   Bloc.observer = SimpleBlocObserver();
   await setUpServiceLocator();
   configLoading();

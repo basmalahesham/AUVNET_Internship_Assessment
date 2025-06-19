@@ -13,6 +13,7 @@ import 'package:auvnet_flutter_internship_assessment/features/home/data/data_sou
 import 'package:auvnet_flutter_internship_assessment/features/home/data/models/banner_model.dart';
 import 'package:auvnet_flutter_internship_assessment/features/home/data/models/restaurant_model.dart';
 import 'package:auvnet_flutter_internship_assessment/features/home/data/models/service_model.dart';
+import 'package:auvnet_flutter_internship_assessment/features/home/data/models/user_profile_model.dart';
 import 'package:auvnet_flutter_internship_assessment/features/home/data/repos/home_repository_impl.dart';
 import 'package:auvnet_flutter_internship_assessment/features/home/domain/repos/home_repository.dart';
 import 'package:auvnet_flutter_internship_assessment/features/home/domain/use_cases/get_banners_use_case.dart';
@@ -37,6 +38,7 @@ Future<void> setUpServiceLocator() async {
   final servicesBox = Hive.box<ServiceModel>(kServiceBox);
   final restaurantBox = Hive.box<RestaurantModel>(kRestaurantBox);
   final bannerBox = Hive.box<BannerModel>(kBannerBox);
+  final userProfileBox = Hive.box<UserProfileModel>(kUserProfileBox);
 
   // Firebase
   getIt.registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
@@ -67,7 +69,7 @@ Future<void> setUpServiceLocator() async {
     () => FirebaseHomeDataSource(getIt()),
   );
   getIt.registerLazySingleton<HomeLocalDataSource>(
-    () => HiveHomeLocalDataSource(servicesBox,restaurantBox,bannerBox),
+    () => HiveHomeLocalDataSource(servicesBox,restaurantBox,bannerBox,userProfileBox),
   );
   getIt.registerLazySingleton<HomeRepository>(
     () => HomeRepositoryImpl(getIt(), getIt()),

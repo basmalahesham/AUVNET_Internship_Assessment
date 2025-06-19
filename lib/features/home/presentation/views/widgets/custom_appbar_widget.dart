@@ -41,14 +41,24 @@ class CustomAppbarWidget extends StatelessWidget {
               children: [
                 Text('Delivering to', style: TextStyles.dmSans12Bold),
                 4.height,
-                Text(
-                  isPlaceholder ? 'Loading address...' : user.address,
-                  style: TextStyles.dmSans16Bold,
+                SizedBox(
+                  width: MediaQuery.sizeOf(context).width*.6,
+                  child: Text(
+                    isPlaceholder ? 'Loading address...' : user.address,
+                    style: TextStyles.dmSans16Bold,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
                 7.height,
-                Text(
-                  isPlaceholder ? 'Hi there!' : 'Hi ${user.name}!',
-                  style: TextStyles.rubik30Bold,
+                SizedBox(
+                  width: MediaQuery.sizeOf(context).width*.6,
+                  child: Text(
+                    isPlaceholder
+                        ? 'Hi there!'
+                        : 'Hi ${user.name.split(' ').first}!',
+                    style: TextStyles.rubik30Bold,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ],
             ),
