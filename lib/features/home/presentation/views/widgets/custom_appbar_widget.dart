@@ -1,6 +1,7 @@
 import 'package:auvnet_flutter_internship_assessment/core/helper/space_extension.dart';
 import 'package:auvnet_flutter_internship_assessment/core/theming/styles/text_styles.dart';
 import 'package:auvnet_flutter_internship_assessment/features/home/domain/entities/user_profile_entity.dart';
+import 'package:auvnet_flutter_internship_assessment/generated/assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -53,7 +54,7 @@ class CustomAppbarWidget extends StatelessWidget {
             ),
             ClipOval(
               child: Image.asset(
-                user.imageUrl,
+                Assets.imagesPlaceholder,
                 height: 60,
                 width: 60,
                 fit: BoxFit.cover,

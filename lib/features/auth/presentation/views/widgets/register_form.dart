@@ -12,7 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class RegisterForm extends StatefulWidget {
-  RegisterForm({super.key});
+  const RegisterForm({super.key});
 
   @override
   State<RegisterForm> createState() => _RegisterFormState();
@@ -20,11 +20,15 @@ class RegisterForm extends StatefulWidget {
 
 class _RegisterFormState extends State<RegisterForm> {
   final formKey = GlobalKey<FormState>();
-  var emailController = TextEditingController();
-  var passwordController = TextEditingController();
-  var confirmPasswordController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
+  final nameController = TextEditingController();
+  final addressController = TextEditingController();
+
   bool isPasswordObscure = true;
   bool isConfirmationPasswordObscure = true;
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -34,17 +38,40 @@ class _RegisterFormState extends State<RegisterForm> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: CustomTextFormField(
+              controller: nameController,
+              hintText: 'name',
+              validator: (value) =>
+                  value!.isEmpty ? 'Please enter your name' : null,
+              prefixIcon: Icon(
+                Icons.person_outline,
+                color: Colors.black.withAlpha(75),
+              ),
+            ),
+          ),
+          10.height,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: CustomTextFormField(
+              controller: addressController,
+              hintText: 'address',
+              validator: (value) =>
+                  value!.isEmpty ? 'Please enter your address' : null,
+              prefixIcon: Icon(
+                Icons.location_on_outlined,
+                color: Colors.black.withAlpha(75),
+              ),
+            ),
+          ),
+          10.height,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: CustomTextFormField(
               controller: emailController,
               hintText: 'mail',
-              validator: (value) {
-                return emailValidator(value, context);
-              },
-              prefixIcon: Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: Icon(
-                  Icons.mail_outline_outlined,
-                  color: Colors.black.withValues(alpha: 0.30),
-                ),
+              validator: (value) => emailValidator(value, context),
+              prefixIcon: Icon(
+                Icons.mail_outline_outlined,
+                color: Colors.black.withAlpha(75),
               ),
             ),
           ),
@@ -54,25 +81,19 @@ class _RegisterFormState extends State<RegisterForm> {
             child: CustomTextFormField(
               controller: passwordController,
               hintText: 'password',
-              validator: (value) {
-                return passwordValidator(value, context);
-              },
+              validator: (value) => passwordValidator(value, context),
               isObscureText: isPasswordObscure,
               suffixIcon: IconButton(
-                onPressed: () {
-                  setState(() => isPasswordObscure = !isPasswordObscure);
-                },
+                onPressed: () =>
+                    setState(() => isPasswordObscure = !isPasswordObscure),
                 icon: Icon(
                   isPasswordObscure ? Icons.visibility_off : Icons.visibility,
                   color: ColorsManager.kPrimaryColor,
                 ),
               ),
-              prefixIcon: Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: Icon(
-                  Icons.lock_outline_rounded,
-                  color: Colors.black.withValues(alpha: 0.30),
-                ),
+              prefixIcon: Icon(
+                Icons.lock_outline_rounded,
+                color: Colors.black.withAlpha(75),
               ),
             ),
           ),
@@ -82,21 +103,17 @@ class _RegisterFormState extends State<RegisterForm> {
             child: CustomTextFormField(
               controller: confirmPasswordController,
               hintText: 'confirm password',
-              validator: (value) {
-                return confirmPasswordValidator(
-                  value,
-                  passwordController.text,
-                  context,
-                );
-              },
+              validator: (value) => confirmPasswordValidator(
+                value,
+                passwordController.text,
+                context,
+              ),
               isObscureText: isConfirmationPasswordObscure,
               suffixIcon: IconButton(
-                onPressed: () {
-                  setState(
-                    () => isConfirmationPasswordObscure =
-                        !isConfirmationPasswordObscure,
-                  );
-                },
+                onPressed: () => setState(
+                  () => isConfirmationPasswordObscure =
+                      !isConfirmationPasswordObscure,
+                ),
                 icon: Icon(
                   isConfirmationPasswordObscure
                       ? Icons.visibility_off
@@ -104,23 +121,22 @@ class _RegisterFormState extends State<RegisterForm> {
                   color: ColorsManager.kPrimaryColor,
                 ),
               ),
-              prefixIcon: Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: Icon(
-                  Icons.lock_outline_rounded,
-                  color: Colors.black.withValues(alpha: 0.30),
-                ),
+              prefixIcon: Icon(
+                Icons.lock_outline_rounded,
+                color: Colors.black.withAlpha(75),
               ),
             ),
           ),
           15.height,
           CustomElevatedButton(
-            onPressed: () {
+            onPressed: () async {
               if (formKey.currentState!.validate()) {
                 context.read<AuthBloc>().add(
                   RegisterRequested(
                     email: emailController.text.trim(),
                     password: passwordController.text,
+                    name: nameController.text.trim(),
+                    address: addressController.text.trim(),
                   ),
                 );
               }

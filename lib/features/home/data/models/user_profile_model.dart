@@ -6,7 +6,7 @@ class UserProfileModel extends UserProfileEntity {
     required super.id,
     required super.name,
     required super.address,
-    required super.imageUrl,
+    //required super.imageUrl,
   });
 
   factory UserProfileModel.fromDoc(DocumentSnapshot doc) {
@@ -15,7 +15,7 @@ class UserProfileModel extends UserProfileEntity {
       id: doc.id,
       name: map['name'] ?? '',
       address: map['address'] ?? '',
-      imageUrl: map['imageUrl'] ?? '',
+      //imageUrl: map['imageUrl'] ?? '',
     );
   }
 }

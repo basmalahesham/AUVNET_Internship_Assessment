@@ -12,20 +12,33 @@ class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource _remoteDataSource;
   final AuthLocalDataSource _localDataSource;
 
-  AuthRepositoryImpl(this._remoteDataSource,this._localDataSource);
+  AuthRepositoryImpl(this._remoteDataSource, this._localDataSource);
 
   @override
   Future<Either<Failure, UserEntity>> register({
     required String email,
     required String password,
+    required String name,
+    required String address,
   }) async {
     try {
-      final user = await _remoteDataSource.register(email, password);
-      final userModel = UserModel.fromFirebaseUser(user);
+      final user = await _remoteDataSource.register(
+        email,
+        password,
+        name,
+        address,
+      );
+      final userModel = UserModel.fromFirebaseUser(
+        user,
+        name: name,
+        address: address,
+      );
       await _localDataSource.cacheUser(userModel);
       return Right(userModel);
     } on FirebaseAuthException catch (e) {
-      return Left(AuthFailure(e.message ?? 'Authentication error', code: e.code));
+      return Left(
+        AuthFailure(e.message ?? 'Authentication error', code: e.code),
+      );
     } catch (e) {
       return Left(ServerFailure('Unexpected error: ${e.toString()}'));
     }
@@ -38,7 +51,15 @@ class AuthRepositoryImpl implements AuthRepository {
   }) async {
     try {
       final user = await _remoteDataSource.login(email, password);
-      final userModel = UserModel.fromFirebaseUser(user);
+      final profile = await (_remoteDataSource as FirebaseAuthDataSource)
+          .getUserProfile(user.uid);
+
+      final userModel = UserModel.fromFirebaseUser(
+        user,
+        name: profile['name'] ?? '',
+        address: profile['address'] ?? '',
+      );
+
       await _localDataSource.cacheUser(userModel);
       return Right(userModel);
     } on FirebaseAuthException catch (e) {

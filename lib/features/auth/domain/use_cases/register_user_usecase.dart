@@ -11,7 +11,14 @@ class RegisterUserUseCase {
   Future<Either<Failure, UserEntity>> call({
     required String email,
     required String password,
+    required String name,
+    required String address,
   }) {
-    return _repository.register(email: email, password: password);
+    return _repository.register(
+      email: email,
+      password: password,
+      name: name,
+      address: address,
+    );
   }
 }

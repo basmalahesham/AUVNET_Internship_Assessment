@@ -10,18 +10,50 @@ class UserModel extends UserEntity {
   final String userId;
   @HiveField(1)
   final String userEmail;
-  const UserModel({required this.userId, required this.userEmail})
-    : super(id: userId, email: userEmail);
+  @HiveField(2)
+  final String userName;
+  @HiveField(3)
+  final String userAddress;
 
-  factory UserModel.fromFirebaseUser(User user) {
-    return UserModel(userId: user.uid, userEmail: user.email ?? '');
+  const UserModel({
+    required this.userId,
+    required this.userEmail,
+    required this.userName,
+    required this.userAddress,
+  }) : super(
+    id: userId,
+    email: userEmail,
+    name: userName,
+    address: userAddress,
+  );
+
+  factory UserModel.fromFirebaseUser(User user,
+      {required String name,
+        required String address,
+        }) {
+    return UserModel(
+      userId: user.uid,
+      userEmail: user.email ?? '',
+      userName: name,
+      userAddress: address,
+    );
   }
 
   Map<String, dynamic> toMap() {
-    return {'id': userId, 'email': userEmail};
+    return {
+      'id': userId,
+      'email': userEmail,
+      'name': userName,
+      'address': userAddress,
+    };
   }
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
-    return UserModel(userId: map['id'] ?? '', userEmail: map['email'] ?? '');
+    return UserModel(
+      userId: map['id'] ?? '',
+      userEmail: map['email'] ?? '',
+      userName: map['name'] ?? '',
+      userAddress: map['address'] ?? '',
+    );
   }
 }
