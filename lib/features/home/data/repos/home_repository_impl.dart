@@ -1,4 +1,5 @@
 import 'package:auvnet_flutter_internship_assessment/features/home/data/data_sources/home_local_data_source.dart';
+import 'package:auvnet_flutter_internship_assessment/features/home/data/models/banner_model.dart';
 import 'package:auvnet_flutter_internship_assessment/features/home/domain/entities/banner_entity.dart';
 import 'package:auvnet_flutter_internship_assessment/features/home/domain/entities/restaurant_entity.dart';
 import 'package:auvnet_flutter_internship_assessment/features/home/domain/entities/service_entity.dart';
@@ -15,8 +16,15 @@ class HomeRepositoryImpl implements HomeRepository {
 
   @override
   Future<Either<Failure, List<BannerEntity>>> getBanners() async {
+    final cached = await localDataSource.getCachedBanners();
+    if (cached != null && cached.isNotEmpty) {
+    return Right(cached);
+    }
     try {
-      return Right(await remoteDataSource.fetchBanners());
+      final banners =await remoteDataSource.fetchBanners();
+      final models = banners.cast<BannerModel>();
+      await localDataSource.cacheBanners(models);
+      return Right(models);
     } catch (_) {
       return Left(ServerFailure('Error fetching banners'));
     }

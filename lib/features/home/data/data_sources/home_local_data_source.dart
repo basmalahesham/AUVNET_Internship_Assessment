@@ -1,5 +1,6 @@
 import 'package:auvnet_flutter_internship_assessment/features/home/data/models/service_model.dart';
 import 'package:auvnet_flutter_internship_assessment/features/home/data/models/restaurant_model.dart';
+import 'package:auvnet_flutter_internship_assessment/features/home/data/models/banner_model.dart';
 import 'package:hive/hive.dart';
 
 abstract class HomeLocalDataSource {
@@ -12,13 +13,19 @@ abstract class HomeLocalDataSource {
   Future<void> cacheRestaurants(List<RestaurantModel> restaurants);
   Future<List<RestaurantModel>?> getCachedRestaurants();
   Future<void> clearCachedRestaurants();
+
+  // Banners
+  Future<void> cacheBanners(List<BannerModel> banners);
+  Future<List<BannerModel>?> getCachedBanners();
+  Future<void> clearCachedBanners();
 }
 
 class HiveHomeLocalDataSource implements HomeLocalDataSource {
   final Box<ServiceModel> serviceBox;
   final Box<RestaurantModel> restaurantBox;
+  final Box<BannerModel> bannerBox;
 
-  HiveHomeLocalDataSource(this.serviceBox, this.restaurantBox);
+  HiveHomeLocalDataSource(this.serviceBox, this.restaurantBox, this.bannerBox);
 
   // Services
   @override
@@ -54,5 +61,23 @@ class HiveHomeLocalDataSource implements HomeLocalDataSource {
   @override
   Future<List<RestaurantModel>?> getCachedRestaurants() async {
     return restaurantBox.values.toList();
+  }
+
+  // Banners
+  @override
+  Future<void> cacheBanners(List<BannerModel> banners) async {
+    for (var banner in banners) {
+      await bannerBox.put(banner.id, banner);
+    }
+  }
+
+  @override
+  Future<void> clearCachedBanners() async {
+    await bannerBox.clear();
+  }
+
+  @override
+  Future<List<BannerModel>?> getCachedBanners() async {
+    return bannerBox.values.toList();
   }
 }

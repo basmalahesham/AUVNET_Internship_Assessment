@@ -14,13 +14,16 @@ class BannerBloc extends Bloc<BannerEvent, BannerState> {
     on<LoadBanners>(_onLoadBanners);
   }
 
-  Future<void> _onLoadBanners(LoadBanners event, Emitter<BannerState> emit) async {
+  Future<void> _onLoadBanners(
+    LoadBanners event,
+    Emitter<BannerState> emit,
+  ) async {
     emit(BannerLoading());
 
     final result = await getBanners();
     result.fold(
-          (failure) => emit(BannerFailure(failure.message)),
-          (banners) => emit(BannerSuccess(banners)),
+      (failure) => emit(BannerFailure(failure.message)),
+      (banners) => emit(BannerSuccess(banners)),
     );
   }
 }
